@@ -43,15 +43,20 @@ app.get('/get-file', (req, res) => {
         const directory = 'E:/TestFolder';
         //Read files in the directory with file type
         fs.readdir(directory, { encoding: 'utf8', withFileTypes: true }, (err, files) => {
-            const textfiles = files.filter(file => {
-                return path.extname(file.name) === ".txt";
-            }).map(data => {
-                return {
-                    filename: data.name,
-                    extension: path.extname(data.name)
-                }
-            })
-            res.send(textfiles);
+            if (err) {
+                res.send(err);
+            }
+            else {
+                const textfiles = files.filter(file => {
+                    return path.extname(file.name) === ".txt";
+                }).map(data => {
+                    return {
+                        filename: data.name,
+                        extension: path.extname(data.name)
+                    }
+                })
+                res.send(textfiles);
+            }
         })
 
     } catch (error) {
